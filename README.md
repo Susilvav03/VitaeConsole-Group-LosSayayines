@@ -19,13 +19,3 @@ Este sistema será implementado en Python, permitiendo a los usuarios almacenar 
 ### Ejemplos de uso
 
 ##### Tablero de trabajo
-
-
-
-
-
-ggg
-
-
-
-hhh
