@@ -93,7 +93,7 @@ def consultCV():
         case "3":
             showAllCVs()
         case _:
-            print(RED + "\nInvalid option. Try again." + RESET)
+            print(RED + "\nInvalid option. Going back to Main menu." + RESET)
 
 def searchCV():
     """ Search for a CV in the data """
@@ -108,7 +108,7 @@ def filterCV():
     filterOption = input("Please enter the filter option (abilities, formation, experience): ").lower()
     
     if filterOption not in ["abilities", "formation", "experience"]:
-        print(RED + "❌ Invalid filter option." + RESET)
+        print(RED + "❌ Invalid filter option. Going back to Main menu" + RESET)
         return
     filterValue = input("Please enter the value to filter by: ")
 
@@ -122,13 +122,13 @@ def filterCV():
         for cv in filteredCVs:
             print(cv)
     else:
-        print(RED + "❌ No CVs found matching the filter." + RESET)
+        print(RED + "❌ No CVs found matching the filter. Going back to Main menu" + RESET)
 
 def showAllCVs():
     """ Show all CVs in the data """
     print("\n--- Showing All CVs ---")
     if not data:
-        print(RED + "❌ No CVs found." + RESET)
+        print(RED + "❌ No CVs found.  Going back to Main menu" + RESET)
         return
     for sheet in data:
         print(sheet)
@@ -144,6 +144,6 @@ def updateCV():
             if newPhone:
                 sheet["Phone_number"] = newPhone
             saveData(data)
-            print("✅ data updated.")
+            print(GREEN + f"✅ Data updated for '{"name"}'")
             return
-    print("❌ No CV found with this document number.")
+    print(RED + "❌ No CV found with this document number. Going back to Main menu" + RESET)
