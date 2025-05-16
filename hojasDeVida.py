@@ -1,62 +1,61 @@
-from tabulate import tabulate
 import json
-ARCHIVO_DATOS = "datos.json"
+archiveData = "data.json"
 
-def cargar_datos():
+def readData():
     try:
-        with open(ARCHIVO_DATOS, 'r') as archivo:
-            return json.load(archivo)
+        with open(archiveData, 'r') as archive:
+            return json.load(archive)
     except FileNotFoundError:
-        return []
+        return "No se encuentran Hojas de vida registradas"
 
-def guardar_datos(datos):
-    with open(ARCHIVO_DATOS, 'w') as archivo:
-        json.dump(datos, archivo, indent=4)
+def saveData(data):
+    with open(archiveData, 'w') as archive:
+        json.dump(data, archive, indent=4)
 
-def registrar_hoja_de_vida():
-    datos = cargar_datos()
+def newCV():
+    data = readData()
     print("\n--- Registro de Hoja de Vida ---")
-    nombre = input("Nombre completo: ")
-    documento = input("Número de documento: ")
-    correo = input("Correo electrónico: ")
-    fecha_nacimiento = input("Fecha de nacimiento (YYYY-MM-DD): ")
-    telefono = input("Teléfono: ")
-    direccion = input("Dirección: ")
+    name = input("name completo: ")
+    document = input("Número de documento: ")
+    email = input("Correo electrónico: ")
+    bornDate = input("Fecha de nacimiento (YYYY-MM-DD): ")
+    phone = input("Teléfono: ")
+    address = input("Dirección: ")
 
     hoja = {
-        "nombre": nombre,
-        "documento": documento,
-        "correo": correo,
-        "fecha_nacimiento": fecha_nacimiento,
-        "telefono": telefono,
-        "direccion": direccion,
+        "nombre": name,
+        "documento": document,
+        "correo": email,
+        "fecha_nacimiento": bornDate,
+        "telefono": phone,
+        "direccion": address,
         "formacion": [],
         "experiencia": [],
         "referencias": [],
         "habilidades": []
     }
 
-    datos.append(hoja)
-    guardar_datos(datos)
+    data.append(hoja)
+    saveData(data)
     print("✅ Hoja de vida registrada exitosamente.")
 
-def consultar_hojas_de_vida():
-    datos = cargar_datos()
+def changeCV():
+    data = readData()
     print("\n--- Consulta de Hojas de Vida ---")
-    for idx, hoja in enumerate(datos, start=1):
-        print(f"\n[{idx}] {hoja['nombre']} - {hoja['correo']}")
+    for idx, hoja in enumerate(data, start=1):
+        print(f"\n[{idx}] {hoja['name']} - {hoja['correo']}")
 
-def actualizar_hoja_de_vida():
-    datos = cargar_datos()
+def updateCV():
+    data = readData()
     print("\n--- Actualizar Hoja de Vida ---")
-    documento = input("Ingrese el número de documento de la hoja a actualizar: ")
-    for hoja in datos:
-        if hoja["documento"] == documento:
-            print(f"Editando hoja de vida de: {hoja['nombre']}")
-            nuevo_telefono = input("Nuevo teléfono (dejar en blanco para no cambiar): ")
-            if nuevo_telefono:
-                hoja["telefono"] = nuevo_telefono
-            guardar_datos(datos)
-            print("✅ Datos actualizados.")
+    document = input("Ingrese el número de documento de la hoja a actualizar: ")
+    for hoja in data:
+        if hoja["documento"] == document:
+            print(f"Editando hoja de vida de: {hoja['name']}")
+            newPhone = input("Nuevo teléfono (dejar en blanco para no cambiar): ")
+            if newPhone:
+                hoja["telefono"] = newPhone
+            saveData(data)
+            print("✅ data actualizados.")
             return
     print("❌ No se encontró ninguna hoja con ese documento.")
