@@ -1,11 +1,5 @@
-from hojasDeVida import newCV, searchCV, updateCV
-from reportes import generateReports
-
-GREEN = "\033[92m"
-MAGENTA = "\033[95m"
-RED = "\033[91m"
-YELLOW = "\033[93m"
-RESET = "\033[0m"
+from hojasDeVida import *
+from reportes import *
 
 def show_menu():
     """ Mostrar el menú """
@@ -27,7 +21,7 @@ def show_menu():
 def main():
     while True:
         show_menu()
-        option = input("Please select an option(1-5): ")
+        option = input("\nPlease select an option(1-5): ")
 
         match option:
             case "1":
@@ -39,9 +33,9 @@ def main():
             case "4":
                 generateReports()
             case "5":
-                print("Thanks for using VitaeConsole...")
+                print("\nThanks for using VitaeConsole...")
                 break
             case _:
-                    print("Invalid option. Try again.")
+                    print(RED + "\nInvalid option. Try again." + RESET)
 
 main()
