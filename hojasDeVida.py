@@ -1,6 +1,5 @@
 from tabulate import tabulate
 import json
-
 ARCHIVO_DATOS = "datos.json"
 
 def cargar_datos():
