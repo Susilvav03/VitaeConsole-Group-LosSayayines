@@ -2,7 +2,7 @@ from hojasDeVida import *
 from reportes import *
 
 def show_menu():
-    """ Mostrar el menú """
+    """ Display the main menu of the VitaeConsole application """
     print(MAGENTA + "\n _________________________________________________" + RESET)
     print(MAGENTA + "|                                                 |" + RESET)
     print(MAGENTA + "|              Welcome to VitaeConsole            |" + RESET)
@@ -18,24 +18,22 @@ def show_menu():
     print(MAGENTA + "| 5. Exit                                         |" + RESET)
     print(MAGENTA + "|_________________________________________________|" + RESET)
 
-def main():
-    while True:
-        show_menu()
-        option = input("\nPlease select an option(1-5): ")
+# Main program loop
+while True:
+    show_menu()
+    option = input("\nPlease select an option(1-5): ")
 
-        match option:
-            case "1":
-                newCV()
-            case "2":
-                searchCV()
-            case "3":
-                updateCV()
-            case "4":
-                generateReports()
-            case "5":
-                print("\nThanks for using VitaeConsole...")
-                break
-            case _:
-                    print(RED + "\nInvalid option. Try again." + RESET)
-
-main()
+    match option:
+        case "1":
+            newCV()
+        case "2":
+            consultCV()
+        case "3":
+            updateCV()
+        case "4":
+            generateReports()
+        case "5":
+            print("\nThanks for using VitaeConsole...")
+            break
+        case _:
+            print(RED + "\nInvalid option. Try again." + RESET)
