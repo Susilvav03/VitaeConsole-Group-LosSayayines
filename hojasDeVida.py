@@ -6,7 +6,7 @@ def readData():
         with open(archiveData, 'r') as archive:
             return json.load(archive)
     except FileNotFoundError:
-        return "There are no CVs registered yet..."
+        return []
 
 def saveData(data):
     with open(archiveData, 'w') as archive:
@@ -53,8 +53,9 @@ def newCV():
 def searchCV():
     data = readData()
     print("\n--- Searching CV ---")
-    for idx, sheet in enumerate(data, start=1):
-        print(f"\n[{idx}] {sheet['name']} - {sheet['Email address']}")
+    for diccionario in data:
+        for clave in diccionario:
+            print(f"Clave: {clave}")
 
 def updateCV():
     data = readData()
