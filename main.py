@@ -19,7 +19,7 @@ def show_menu():
     print(MAGENTA + "|_________________________________________________|" + RESET)
 
 # Main program loop
-while True:
+while flag:
     show_menu()
     option = input("\nPlease select an option(1-5): ")
 
