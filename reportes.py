@@ -1,7 +1,7 @@
 import json
 import csv
 
-ARCHIVO_DATOS = "datos.json"
+archiveData = "data.json"
 
 def cargar_datos():
     try:
@@ -10,7 +10,7 @@ def cargar_datos():
     except FileNotFoundError:
         return []
 
-def generar_reportes():
+def generateReports():
     datos = cargar_datos()
     print("\n--- Generador de Reportes ---")
     opcion = input("¿Desea exportar todos los datos en CSV? (s/n): ").lower()

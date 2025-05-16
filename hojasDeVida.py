@@ -6,7 +6,7 @@ def readData():
         with open(archiveData, 'r') as archive:
             return json.load(archive)
     except FileNotFoundError:
-        return "No se encuentran Hojas de vida registradas"
+        return "There are no CVs registered yet..."
 
 def saveData(data):
     with open(archiveData, 'w') as archive:
@@ -14,48 +14,59 @@ def saveData(data):
 
 def newCV():
     data = readData()
-    print("\n--- Registro de Hoja de Vida ---")
-    name = input("name completo: ")
-    document = input("Número de documento: ")
-    email = input("Correo electrónico: ")
-    bornDate = input("Fecha de nacimiento (YYYY-MM-DD): ")
-    phone = input("Teléfono: ")
-    address = input("Dirección: ")
-
-    hoja = {
-        "nombre": name,
-        "documento": document,
-        "correo": email,
-        "fecha_nacimiento": bornDate,
-        "telefono": phone,
-        "direccion": address,
-        "formacion": [],
-        "experiencia": [],
-        "referencias": [],
-        "habilidades": []
+    print("\n--- CV registered ---")
+    name = input("Complete name: ")
+    document = input("Document number: ")
+    email = input("Email address: ")
+    bornDate = input("Born date (YYYY-MM-DD): ")
+    phone = input("Phone number: ")
+    address = input("Address: ")
+    formationInst = input("Formation institution: ")
+    formationTitle = input("Formation Title: ")
+    formationYear = input("Formation Years: ")
+    experienceCorporation = input("Company name: ")
+    experienceCharge = input("Charge name: ")
+    experiencePosition = input("Functions of the job: ")
+    experienceDuration = input("Duration in the company: ")
+    referencesName = input("Name of the reference contact: ")
+    referencesRelation = input("Relation with the reference contact: ")
+    referencesPhonenumber = input("Phone number of the reference contact: ")
+    abilities = input("Please enter the abilities or certifications: ")
+    
+    sheet = {
+        "Name": name,
+        "Document": document,
+        "Email Address": email,
+        "Born_date": bornDate,
+        "Phone_number": phone,
+        "Address": address,
+        "Formation": [formationInst,formationTitle,formationYear],
+        "Experience": [experienceCorporation,experienceCharge,experiencePosition,experienceDuration],
+        "References": [referencesName,referencesRelation,referencesPhonenumber],
+        "Abilities": abilities
     }
 
-    data.append(hoja)
+    data.append(sheet)
     saveData(data)
-    print("✅ Hoja de vida registrada exitosamente.")
+    print("✅ CV registered correctly.")
 
-def changeCV():
+def searchCV():
     data = readData()
-    print("\n--- Consulta de Hojas de Vida ---")
-    for idx, hoja in enumerate(data, start=1):
-        print(f"\n[{idx}] {hoja['name']} - {hoja['correo']}")
+    print("\n--- Searching CV ---")
+    for idx, sheet in enumerate(data, start=1):
+        print(f"\n[{idx}] {sheet['name']} - {sheet['Email address']}")
 
 def updateCV():
     data = readData()
-    print("\n--- Actualizar Hoja de Vida ---")
-    document = input("Ingrese el número de documento de la hoja a actualizar: ")
-    for hoja in data:
-        if hoja["documento"] == document:
-            print(f"Editando hoja de vida de: {hoja['name']}")
-            newPhone = input("Nuevo teléfono (dejar en blanco para no cambiar): ")
+    print("\n--- Updating CV ---")
+    document = input("Please enter the document number that you would like to update: ")
+    for sheet in data:
+        if sheet["Document"] == document:
+            print(f"Changing CV of: {sheet['name']}")
+            newPhone = input("New phone number (Please leave this space in blank if you don´t want to update): ")
             if newPhone:
-                hoja["telefono"] = newPhone
+                sheet["Phone_number"] = newPhone
             saveData(data)
-            print("✅ data actualizados.")
+            print("✅ data updated.")
             return
-    print("❌ No se encontró ninguna hoja con ese documento.")
+    print("❌ No CV found with this document number.")
