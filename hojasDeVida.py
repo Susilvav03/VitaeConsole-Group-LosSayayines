@@ -7,6 +7,7 @@ YELLOW = "\033[93m"
 RESET = "\033[0m"
 
 fileData = "data.json"
+reportData = "export.csv"
 flag = True
 
 def readData():

@@ -31,7 +31,7 @@ while flag:
         case "3":
             updateCV()
         case "4":
-            generateReports()
+            generateReports(fileData,reportData)
         case "5":
             print("\nThanks for using VitaeConsole...")
             break
