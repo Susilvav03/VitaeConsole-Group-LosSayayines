@@ -147,7 +147,7 @@ def searchCV():
     key = input("Search by name, ID number or email: ")
     for resume in data:
         if key in resume["name"] or key in resume["id"][0] or key in resume["contact"]["email_Address"]:
-            print(resume)
+            printCV(resume)
             
 def filterCV():
     """ Filter CVs by abilities, formation or experience """
@@ -168,7 +168,7 @@ def filterCV():
     if filteredCVs:
         print(GREEN + f"✅ Found {len(filteredCVs)} CV(s) matching the filter." + RESET)
         for cv in filteredCVs:
-            print(cv)
+            printCV(cv)
     else:
         print(RED + "❌ No CVs found matching the filter. Going back to Main menu" + RESET)
 
@@ -180,7 +180,7 @@ def showAllCVs():
         print(RED + "❌ No CVs found.  Going back to Main menu" + RESET)
         return
     for sheet in data:
-        print(sheet)
+        printCV(sheet)
 
 def updateCV():
     """ Update an existing CV in the data based on the document part of the id """
@@ -311,3 +311,117 @@ def updateReferences(cv):
         phoneNumber = input("Phone Number: ")
         # Append new entry to the 'references' list
         cv["references"].append({"name": name, "relation": relation, "phoneNumber": phoneNumber})
+
+def printCV(cv):
+    """ Prints a CV dictionary in a readable and structured format """
+    if not isinstance(cv, dict):
+        print(RED + "Error: The provided data is not a valid CV dictionary." + RESET)
+        return
+
+    print("\n" + "="*40)
+    print(f"{MAGENTA}--- Curriculum Vitae Information ---{RESET}")
+    print("="*40)
+
+    # --- Personal Data ---
+    print(f"\n{YELLOW}--- Personal Data ---{RESET}")
+    print(f"  {GREEN}Name:{RESET} {cv.get('name', 'N/A')}")
+
+    # Handle the 'id' which is a tuple (document, bornDate)
+    id_info = cv.get('id', ('N/A', 'N/A'))
+    documento = id_info[0] if isinstance(id_info, tuple) and len(id_info) > 0 else 'N/A'
+    fecha_nacimiento = id_info[1] if isinstance(id_info, tuple) and len(id_info) > 1 else 'N/A'
+    print(f"  {GREEN}ID Document Number:{RESET} {documento}")
+    print(f"  {GREEN}Date of Birth:{RESET} {fecha_nacimiento}")
+
+    # --- Contact ---
+    print(f"\n{YELLOW}--- Contact ---{RESET}")
+    contact_info = cv.get('contact', {})
+    print(f"  {GREEN}Phone Number:{RESET} {contact_info.get('phone_number', 'N/A')}")
+    print(f"  {GREEN}Email Address:{RESET} {contact_info.get('email_Address', 'N/A')}")
+    print(f"  {GREEN}Address:{RESET} {contact_info.get('address', 'N/A')}")
+
+    # --- Academic Formation ---
+    print(f"\n{YELLOW}--- Academic Formation ---{RESET}")
+    formation_list = cv.get('formation', [])
+    if formation_list:
+        for i, formation in enumerate(formation_list):
+            print(f"  {GREEN}Formation {i+1}:{RESET}")
+            # Assuming each formation item is a list [institution, title, year]
+            if isinstance(formation, list) and len(formation) >= 3:
+                print(f"    Institution: {formation[0]}")
+                print(f"    Title: {formation[1]}")
+                print(f"    Year(s): {formation[2]}")
+            # If formation is stored as a dictionary (as in the updateAcademicFormation function)
+            elif isinstance(formation, dict):
+                print(f"    Institution: {formation.get('institution', 'N/A')}")
+                print(f"    Title: {formation.get('title', 'N/A')}")
+                print(f"    Year(s): {formation.get('years', 'N/A')}")
+            else:
+                print(f"    Unknown formation format: {formation}")
+    else:
+        print("  No academic formation information.")
+
+    # --- Professional Experience ---
+    print(f"\n{YELLOW}--- Professional Experience ---{RESET}")
+    experience_list = cv.get('experience', [])
+    if experience_list:
+        for i, experience in enumerate(experience_list):
+            print(f"  {GREEN}Experience {i+1}:{RESET}")
+            # Assuming each experience item is a list [company, charge, functions, duration]
+            if isinstance(experience, list) and len(experience) >= 4:
+                print(f"    Company: {experience[0]}")
+                print(f"    Position: {experience[1]}")
+                print(f"    Functions: {experience[2]}")
+                print(f"    Duration: {experience[3]}")
+            # If experience is stored as a dictionary (as in the updateProfessionalExperience function)
+            elif isinstance(experience, dict):
+                print(f"    Company: {experience.get('company', 'N/A')}")
+                print(f"    Position: {experience.get('charge', 'N/A')}")
+                print(f"    Functions: {experience.get('functions', 'N/A')}")
+                print(f"    Duration: {experience.get('duration', 'N/A')}")
+            else:
+                print(f"    Unknown experience format: {experience}")
+    else:
+        print("  No professional experience information.")
+
+    # --- References ---
+    print(f"\n{YELLOW}--- References ---{RESET}")
+    references_list = cv.get('references', [])
+    if references_list:
+        for i, reference in enumerate(references_list):
+            print(f"  {GREEN}Reference {i+1}:{RESET}")
+            # Assuming each reference item is a list [name, relation, phone]
+            if isinstance(reference, list) and len(reference) >= 3:
+                print(f"    Name: {reference[0]}")
+                print(f"    Relation: {reference[1]}")
+                print(f"    Phone Number: {reference[2]}")
+            # If reference is stored as a dictionary (as in the updateReferences function)
+            elif isinstance(reference, dict):
+                print(f"    Name: {reference.get('name', 'N/A')}")
+                print(f"    Relation: {reference.get('relation', 'N/A')}")
+                print(f"    Phone Number: {reference.get('phoneNumber', 'N/A')}")
+            else:
+                print(f"    Unknown reference format: {reference}")
+    else:
+        print("  No reference information.")
+
+    # --- Skills and Certifications ---
+    print(f"\n{YELLOW}--- Skills and Certifications ---{RESET}")
+    abilities_list = cv.get('abilities', [])
+    if abilities_list:
+        # Assuming abilities are a list of strings
+        print("  " + ", ".join(abilities_list))
+    else:
+        print("  No skills or certifications listed.")
+
+    print("\n" + "="*40)
+
+
+
+
+ 
+	
+
+
+
+	
