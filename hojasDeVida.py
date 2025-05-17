@@ -34,7 +34,7 @@ def readData():
         print(f" ⚠️ An unexpected error occurred while reading '{fileData}': {e}")
         return []
 
-def saveData():
+def saveData(data):
     """ Save the data to a JSON file """
     with open(fileData, 'w') as file:
         json.dump(data, file, indent=4)
@@ -49,7 +49,7 @@ def newCV():
         document = input("ID Document number: ")
         if document.isdigit():
         # Check if document number already exists
-            if any(entry.get("Document") == document for entry in data):
+            if any(entry.get(["id"][0]) == document for entry in data):
                 print(f"⚠️ A CV with document number {document} already exists.")
             else:
                 break
@@ -118,7 +118,7 @@ def newCV():
     }
 
     data.append(sheet)
-    saveData()
+    saveData(data)
     print(GREEN + f"✅ CV of '{name}' was registered correctly." + RESET)
 
 def consultCV():
@@ -137,7 +137,7 @@ def consultCV():
         case "3":
             showAllCVs()
         case _:
-            print(RED + "\nInvalid option. Going back to Main menu." + RESET)
+            print(RED + "\n❌ Invalid option. Going back to Main menu." + RESET)
 
 def searchCV():
     """ Search for a CV in the data """
@@ -146,7 +146,8 @@ def searchCV():
     key = input("Search by name, ID number or email: ")
     for resume in data:
         if key in resume["name"] or key in resume["id"][0] or key in resume["contact"]["email_Address"]:
-            print(data(resume, indent=4))
+            print(resume)
+            
 def filterCV():
     """ Filter CVs by abilities, formation or experience """
     data = readData()
@@ -154,7 +155,7 @@ def filterCV():
     filterOption = input("Please enter the filter option (abilities, formation, experience): ").lower()
     
     if filterOption not in ["abilities", "formation", "experience"]:
-        print(RED + "❌ Invalid filter option. Going back to Main menu" + RESET)
+        print(RED + "\n❌ Invalid filter option. Going back to Main menu" + RESET)
         return
     filterValue = input("Please enter the value to filter by: ")
 
@@ -172,6 +173,7 @@ def filterCV():
 
 def showAllCVs():
     """ Show all CVs in the data """
+    data = readData()
     print("\n--- Showing All CVs ---")
     if not data:
         print(RED + "❌ No CVs found.  Going back to Main menu" + RESET)
@@ -180,16 +182,131 @@ def showAllCVs():
         print(sheet)
 
 def updateCV():
-    """ Update an existing CV in the data """
-    print("\n--- Updating CV ---")
-    document = input("Please enter the document number that you would like to update: ")
-    for sheet in data:
-        if sheet["Document"] == document:
-            print(f"Changing CV of: {sheet['name']}")
-            newPhone = input("New phone number (Please leave this space in blank if you don´t want to update): ")
-            if newPhone:
-                sheet["Phone_number"] = newPhone
-            saveData(data)
-            print(GREEN + f"✅ Data updated for '{"name"}'")
-            return
-    print(RED + "❌ No CV found with this document number. Going back to Main menu" + RESET)
+    """ Update an existing CV in the data based on the document part of the id """
+    data = readData()
+    print("\n--- Update CV ---")
+    # Prompt for the document number to find the CV
+    document_to_update = input("Enter the document number of the CV you want to update: ")
+    found_index = -1
+
+    # Search for the CV by the document number (first element of the 'id' tuple)
+    for i, cv in enumerate(data):
+        # Check if the 'id' key exists and is a tuple with at least one element
+        if "id" in cv and isinstance(cv["id"], tuple) and len(cv["id"]) > 0 and cv["id"][0] == document_to_update:
+            found_index = i
+            break
+
+    if found_index != -1:
+        cv_update = data[found_index]
+        # Access the name using the get method for safety
+        print(f"\n--- Updating CV of: {cv_update.get('name', 'N/A')} ---")
+
+        while True:
+            # Display update options
+            print("\nWhich section do you want to update?")
+            print("1. Personal Data")
+            print("2. Academic Formation")
+            print("3. Professional Experience")
+            print("4. References")
+            print("5. Skills or Certifications")
+            print("6. Back to main menu")
+
+            option = input("\nEnter your choice: ")
+
+            # Process user's choice
+            if option == '1':
+                updatePersonalData(cv_update)
+            elif option == '2':
+                updateAcademicFormation(cv_update)
+            elif option == '3':
+                updateProfessionalExperience(cv_update)
+            elif option == '4':
+                updateReferences(cv_update)
+            elif option == '5':
+                # Update abilities (assuming it's a list of strings)
+                print("\n--- Update Skills or Certifications ---")
+                # Ask for a comma-separated list and split into a list
+                abilities_input = input("Enter the new skills or certifications (comma-separated): ")
+                cv_update["abilities"] = [ability.strip() for ability in abilities_input.split(',') if ability.strip()]
+            elif option == '6':
+                # Exit the update loop
+                break
+            else:
+                print("❌ Invalid option.")
+
+        # Save the updated data
+        saveData(data)
+        print("✅ CV updated successfully.")
+    else:
+        print(f"❌ No CV found with the document number: {document_to_update}")
+
+
+def updatePersonalData(cv):
+    """Allows editing personal data within the new structure."""
+    print("\n--- Edit Personal Data ---")
+    # Access and update fields within the nested 'contact' dictionary and the top-level 'name'
+    # Use .get() with a default empty dictionary for 'contact' for safety
+    contact_info = cv.setdefault("contact", {})
+
+    # Update name
+    current_name = cv.get("name", "N/A")
+    cv["name"] = input(f"Full Name ({current_name}): ") or current_name
+
+    # Update contact details
+    current_phone = contact_info.get("phone_number", "N/A")
+    contact_info["phone_number"] = input(f"Contact Number ({current_phone}): ") or current_phone
+
+    current_address = contact_info.get("address", "N/A")
+    contact_info["address"] = input(f"Address ({current_address}): ") or current_address
+
+    current_email = contact_info.get("email_Address", "N/A")
+    contact_info["email_Address"] = input(f"Email Address ({current_email}): ") or current_email
+
+
+def updateAcademicFormation(cv):
+    """Allows adding new academic formation to the 'formation' list."""
+    print("\n--- Add Academic Formation ---")
+    # Ensure 'formation' key exists and is a list
+    cv.setdefault("formation", [])
+
+    while True:
+        institution = input("Institution (leave blank to finish): ")
+        if not institution:
+            break
+        title = input("Title Obtained: ")
+        years = input("Years of Study: ")
+        # Append new entry to the 'formation' list
+        cv["formation"].append({"institution": institution, "title": title, "years": years})
+
+
+def updateProfessionalExperience(cv):
+    """Allows adding new professional experience to the 'experience' list."""
+    print("\n--- Add Professional Experience ---")
+    # Ensure 'experience' key exists and is a list
+    cv.setdefault("experience", [])
+
+    while True:
+        company = input("Company Name (leave blank to finish): ")
+        if not company:
+            break
+        charge = input("Position Held: ")
+        functions = input("Job Functions: ")
+        duration = input("Duration in the Company: ")
+        # Append new entry to the 'experience' list
+        cv["experience"].append({"company": company, "charge": charge, "functions": functions, "duration": duration})
+
+
+def updateReferences(cv):
+    """Allows adding new references to the 'references' list."""
+    print("\n--- Add References ---")
+    # Ensure 'references' key exists and is a list
+    cv.setdefault("references", [])
+
+    while True:
+        name = input("Reference Name (leave blank to finish): ")
+        if not name:
+            break
+        relation = input("Relation: ")
+        phoneNumber = input("Phone Number: ")
+        # Append new entry to the 'references' list
+        cv["references"].append({"name": name, "relation": relation, "phoneNumber": phoneNumber})
