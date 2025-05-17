@@ -40,4 +40,6 @@ Finalmente, cada vez que se use el programa crea un archivo json, csv estructura
 ##### Tablero de trabajo
 Estamos utilizando la herramienta de Trello. En el siguiente link pueden encontrar el tablero especificado:
 
+https://trello.com/invite/b/68266f59c112e1da58ad8a14/ATTId8bf32571e228f7a9184d500517d7f0312AD526E/gestion-hojas-de-vida
+
 ![Trello](https://github.com/user-attachments/assets/93772ebf-61d5-4b95-ad54-e940bd4bd896)
