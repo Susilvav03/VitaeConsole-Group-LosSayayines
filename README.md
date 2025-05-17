@@ -16,13 +16,15 @@ Este sistema será implementado en Python, permitiendo a los usuarios almacenar 
 
 
 ### Librerías utilizadas y cómo instalarlas
-Decidimos utilizar solo los archivos "json", muy utiles ya que estas ya estan integradas en Python. No hay necesidad de instalarlas ya que como dijimos antes estas librerías ya estan integradas en el lenguaje.
+Decidimos utilizar los archivos "json" y "csv", muy utiles ya que estas ya estan integradas en Python. No hay necesidad de instalarlas ya que como dijimos antes estas librerías ya estan integradas en el lenguaje.
 
-Recordemos que los archivos "json" son archivos de texto que almacenan datos estructurados de forma legible. Se importa el módulo JSON por medio de "import json", se utilizan por medio de "with".
+Recordemos que los archivos "json" son archivos de texto que almacenan datos estructurados de forma legible. Se importa el módulo JSON por medio de "import json", se utilizan por medio de "with". Los archivos "csv" abreviatura de "Comma Separated Values" (Valores Separados por Comas), son archivos de texto que almacenan datos en formato tabular, donde los valores de cada fila están separados por comas.
 
-Finalmente, cada vez que se use el programa crea un archivo json estructurado guardando la información requerida.
+Finalmente, cada vez que se use el programa crea un archivo json, csv estructurado, guardando la información requerida.
 
 ### Ejemplos de uso
 
 ##### Tablero de trabajo
-Estamos utilizando la herramienta de Trello. En el siguiente link pueden encontrar el tablero especificado: https://trello.com/invite/b/68266f59c112e1da58ad8a14/ATTId8bf32571e228f7a9184d500517d7f0312AD526E/gestion-hojas-de-vida
+Estamos utilizando la herramienta de Trello. En el siguiente link pueden encontrar el tablero especificado:
+
+![Trello](https://github.com/user-attachments/assets/93772ebf-61d5-4b95-ad54-e940bd4bd896)
