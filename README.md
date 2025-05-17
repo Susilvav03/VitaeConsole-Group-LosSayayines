@@ -13,7 +13,20 @@ VitaeConsole será un sistema en consola que permitirá registrar, actualizar y 
 Este sistema será implementado en Python, permitiendo a los usuarios almacenar información relevante, estructurar perfiles completos, y generar reportes exportables para seguimiento o selección.
 
 ### 📁 Instrucciones para ejecutar el programa
+Para poder correr este programa debes de: 
 
+1. Correr através de la terminal por medio de "python3" y "main.py".
+2. Te va a aparecer un menu con todas las opciones:
+
+"Add new CV" para agregar nuevas hojas de vida
+
+"Consult CV" para consultar hojas de vida 
+
+"Update CV" para actualizar hojas de vida 
+
+"Generate reports" para generar reportes
+
+Y por último "Exit" para salir del programa
 
 ### Librerías utilizadas y cómo instalarlas
 Decidimos utilizar los archivos "json" y "csv", muy utiles ya que estas ya estan integradas en Python. No hay necesidad de instalarlas ya que como dijimos antes estas librerías ya estan integradas en el lenguaje.
