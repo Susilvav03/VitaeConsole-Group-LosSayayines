@@ -14,8 +14,15 @@ Este sistema será implementado en Python, permitiendo a los usuarios almacenar 
 
 ### 📁 Instrucciones para ejecutar el programa
 
+
 ### Librerías utilizadas y cómo instalarlas
+Decidimos utilizar solo los archivos "json", muy utiles ya que estas ya estan integradas en Python. No hay necesidad de instalarlas ya que como dijimos antes estas librerías ya estan integradas en el lenguaje.
+
+Recordemos que los archivos "json" son archivos de texto que almacenan datos estructurados de forma legible. Se importa el módulo JSON por medio de "import json", se utilizan por medio de "with".
+
+Finalmente, cada vez que se use el programa crea un archivo json estructurado guardando la información requerida.
 
 ### Ejemplos de uso
 
 ##### Tablero de trabajo
+Estamos utilizando la herramienta de Trello. En el siguiente link pueden encontrar el tablero especificado: https://trello.com/invite/b/68266f59c112e1da58ad8a14/ATTId8bf32571e228f7a9184d500517d7f0312AD526E/gestion-hojas-de-vida
