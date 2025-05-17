@@ -9,13 +9,30 @@ RESET = "\033[0m"
 fileData = "data.json"
 flag = True
 
-data = []
-
-try:
-    with open(fileData, 'r') as file:
-        data = json.load(file)
-except FileNotFoundError:
-    data = []
+def readData():
+    """
+    Reads data from the JSON file.
+    Returns an empty list if the file does not exist, is empty, or invalid.
+    Handles errors using try-except without using os.
+    """
+    try:
+        with open(fileData, 'r') as archive:
+            # Try to load data. If the file is empty or not valid JSON,
+            # json.load() will raise json.JSONDecodeError.
+            data = json.load(archive)
+            return data
+    except FileNotFoundError:
+        # If the file doesn't exist, return an empty list.
+        print(f" ⚠️ File '{fileData}' not found. A new one will be created upon saving.")
+        return []
+    except json.JSONDecodeError:
+        # If the file is empty or contains invalid JSON, return an empty list.
+        print(f"⚠️ The file '{fileData}' is empty or corrupt. Starting with empty data.")
+        return []
+    except Exception as e:
+        # Catch any other unexpected errors.
+        print(f" ⚠️ An unexpected error occurred while reading '{fileData}': {e}")
+        return []
 
 def saveData():
     """ Save the data to a JSON file """
@@ -23,13 +40,40 @@ def saveData():
         json.dump(data, file, indent=4)
 
 def newCV():
+    sheet = []
     """ Add a new CV to the data """
+    data = readData()
     print("\n--- Adding New CV ---")
     name = input("Complete name: ")
-    document = input("ID Document number: ")
-    bornDate = input("Born date (YYYY-MM-DD): ")
-    email = input("Email address: ")
-    phone = input("Phone number: ")
+    while flag:
+        document = input("ID Document number: ")
+        if document.isdigit():
+        # Check if document number already exists
+            if any(entry.get("Document") == document for entry in data):
+                print(f"⚠️ A CV with document number {document} already exists.")
+            else:
+                break
+        else:
+            print("❌ Document number must contain only digits.")
+    while True:
+        bornDate = input("Born date (YYYY-MM-DD): ")
+        # Simple date format validation
+        if len(bornDate) == 10 and bornDate[4] == '-' and bornDate[7] == '-':
+            break
+        else:
+            print("❌ Incorrect date format. Please use YYYY-MM-DD.")
+    while flag:
+        email = input("Email address: ")
+        if "@" not in email or "." not in email:
+            print("⚠️ Invalid email address format.")
+        else:
+            break
+    while flag:
+        phone = input("Phone number: ")
+        if phone.isdigit():
+            break
+        else: 
+            print("❌ Phone number must contain only digits.")
     address = input("Address: ")
 
     academicFormation = []
@@ -98,12 +142,14 @@ def consultCV():
 def searchCV():
     """ Search for a CV in the data """
     print("\n--- Searching CV ---")
-    for diccionario in data:
-        for clave in diccionario:
-            print(f"Clave: {clave}")
-
+    data = readData()
+    key = input("Search by name, ID number or email: ")
+    for resume in data:
+        if key in resume["name"] or key in resume["id"][0] or key in resume["contact"]["email_Address"]:
+            print(data(resume, indent=4))
 def filterCV():
     """ Filter CVs by abilities, formation or experience """
+    data = readData()
     print("\n--- Filtering CVs ---")
     filterOption = input("Please enter the filter option (abilities, formation, experience): ").lower()
     
